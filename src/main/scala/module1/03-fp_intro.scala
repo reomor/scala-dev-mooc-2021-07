@@ -206,6 +206,8 @@ object list {
       case List.Nil              => List.Cons(v, List.Nil)
     }
 
+    def ::[TT >: T](v: TT): List[TT] = cons(v)
+
     def mkStringNonTailRec(delimiter: String = ","): String = {
       def getDelim(list: List[T]): String =
         if (list != List.Nil) s"$delimiter" else ""
@@ -214,7 +216,6 @@ object list {
         case List.Nil           => ""
         case List.Cons(v, tail) => v + getDelim(tail) + loop(tail)
       }
-      "[" + loop(this) + "]"
       "[" + loop(this) + "]"
     }
 
@@ -236,7 +237,7 @@ object list {
     def reverse(): List[T] = {
       @tailrec
       def loop(list: List[T], result: List[T]): List[T] = list match {
-        case List.Cons(v, tail) => loop(tail, List.Cons(v, result))
+        case List.Cons(v, tail) => loop(tail, v :: result)
         case List.Nil           => result
       }
       loop(this, List.Nil)
@@ -247,7 +248,7 @@ object list {
     def map[B](f: T => B): List[B] = {
       @tailrec
       def loop(list: List[T], result: List[B]): List[B] = list match {
-        case List.Cons(v, tail) => loop(tail, List.Cons(f(v), result))
+        case List.Cons(v, tail) => loop(tail, f(v) :: result)
         case _                  => result
       }
       loop(this, List.Nil).reverse()
@@ -260,7 +261,7 @@ object list {
       def loop(list: List[T], result: List[T]): List[T] = list match {
         case List.Cons(v, tail) =>
           if (p(v))
-            loop(tail, List.Cons(v, result))
+            loop(tail, v :: result)
           else
             loop(tail, result)
         case _ => result
@@ -277,22 +278,15 @@ object list {
 
     object Cons {
 
-      def apply[T](list: List[T]): List[T] = {
-        list match {
-          case List.Cons(_, _) => list
-          case List.Nil        => List.Nil
-        }
-      }
-
       /** Конструктор, позволяющий создать список из N - го числа аргументов
         * Для этого можно воспользоваться *
         *
         * Например вот этот метод принимает некую последовательность аргументов с типом Int и выводит их на печать
         * def printArgs(args: Int*) = args.foreach(println(_))
         */
-      def apply[T](args: T*): List[T] = Cons.apply(
-        args.foldLeft[List[T]](List.Nil)((tail, next) => tail.cons(next))
-      )
+      def apply[T](args: T*): List[T] =
+          args.foldLeft[List[T]](List.Nil)((tail, next) => tail.cons(next))
+
     }
 
     /** Nil - пустой список
