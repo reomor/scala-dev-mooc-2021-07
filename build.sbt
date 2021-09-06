@@ -1,6 +1,5 @@
 import sbt.Keys.libraryDependencies
 
-
 lazy val root = (project in file("."))
   .settings(
     name := "scala-dev-mooc-2021-07",
@@ -9,3 +8,4 @@ lazy val root = (project in file("."))
   )
 
 libraryDependencies += "org.scalatest" %% "scalatest-flatspec" % "3.2.9" % "test"
+libraryDependencies += "org.typelevel" %% "cats-core" % "2.3.0"
