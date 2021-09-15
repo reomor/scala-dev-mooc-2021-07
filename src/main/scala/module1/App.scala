@@ -11,6 +11,7 @@ import zio.console._
 import zio.IO
 import zio.duration._
 import scala.language.postfixOps
+import module3.zioConcurrency
 
 
 
@@ -18,22 +19,10 @@ object App {
 
   def main(args: Array[String]): Unit = {
 
-    sealed trait NotificationError
-    case object NotificationByEmailFailed extends NotificationError
-    case object NotificationBySMSFailed extends NotificationError
 
-    val z1 = ZIO.fail(NotificationByEmailFailed)
-    val z2 = ZIO.fail(NotificationBySMSFailed)
-
-    val z3 = z1.zipPar(z2)
-
-    val z4 = z3.tapCause{
-      case Cause.Both(left, right) => 
-        putStrLn(left.failureOption.toString()) *> putStrLn(right.failureOption.toString())
-    }.orElse(putStrLn("app failed"))
   
 
-    zio.Runtime.default.unsafeRun(z4)
+    zio.Runtime.default.unsafeRun(zioConcurrency.printEffectRunningTime(zioConcurrency.greeter2))
   }
 }
 
