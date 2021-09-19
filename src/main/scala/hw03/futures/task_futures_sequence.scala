@@ -27,6 +27,9 @@ object task_futures_sequence {
       }
     )
 
-    Future.reduceLeft(handledFutures)((a, b) => (a._1 ++ b._1, a._2 ++ b._2))
+    Future.reduceLeft(handledFutures) {
+      case ((successList, failureList), (success, failure)) =>
+        (successList ::: success , failureList ::: failure)
+    }
   }
 }
