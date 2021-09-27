@@ -72,7 +72,7 @@ object di {
   } yield ()
 
 
-  lazy val getUser: ZIO[UserService, Nothing, User] = ZIO.environment[UserService].flatMap(_.getUserBy(1))
+  // lazy val getUser: ZIO[UserService, Nothing, User] = ZIO.environment[UserService].flatMap(_.getUserBy(1))
 
   lazy val sendMail: ZIO[EmailService, Throwable, Unit] = ???
 
@@ -80,7 +80,7 @@ object di {
   /**
    * Эффект, который будет комбинацией двух эффектов выше
    */
-  lazy val combined2: ZIO[UserService with EmailService,Throwable,(User, Unit)] = getUser <*> sendMail
+  // azy val combined2: ZIO[UserService with EmailService,Throwable,(User, Unit)] = getUser <*> sendMail
 
 
   /**
@@ -105,13 +105,13 @@ object di {
   lazy val emailService2: EmailService = ???
 
   // provide
-  lazy val e3: ZIO[Any, Throwable, Unit] = queryAndNotify.provide(services)
+  // lazy val e3: ZIO[Any, Throwable, Unit] = queryAndNotify.provide(services)
 
   // provide some
-  lazy val e4: ZIO[DBService,Throwable,Unit] = queryAndNotify.provideSome[DBService](emailService2)
+  // lazy val e4: ZIO[DBService,Throwable,Unit] = queryAndNotify.provideSome[DBService](emailService2)
 
   // provide
-  lazy val e5: IO[Throwable, Unit] = e4.provide(dBService)
+  // lazy val e5: IO[Throwable, Unit] = e4.provide(dBService)
 
   lazy val servicesLayer: ZLayer[Any, Nothing, DBService with EmailService] = ???
 
