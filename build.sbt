@@ -12,3 +12,7 @@ lazy val root = (project in file("."))
   )
 
 libraryDependencies += "org.scalatest" %% "scalatest-flatspec" % "3.2.9" % "test"
+
+testFrameworks := Seq(new TestFramework("zio.test.sbt.ZTestFramework"))
+
+scalacOptions += "-Ymacro-annotations"
