@@ -1,5 +1,6 @@
 package module3.zio_homework
 
+import module3.zio_homework.config.AppConfig
 import zio.clock.Clock
 import zio.console.{Console, getStrLn, putStrLn}
 import zio.random.Random
@@ -19,8 +20,10 @@ object ZioHomeWorkApp extends zio.App {
 
   override def run(
       args: List[String]
-  ): URIO[Clock with Random with Console, ExitCode] =
-    doWhile(randomIntZ, (a: Int) => a == 3).exitCode
+  ): URIO[Clock with Random with Console, ExitCode] = {
+    loadConfigOrDefault(AppConfig("backup", "http://backup_url")).exitCode
+  }
+  //    doWhile(randomIntZ, (a: Int) => a == 3).exitCode
 //  guessProgram.exitCode
 //  runApp.exitCode
 }

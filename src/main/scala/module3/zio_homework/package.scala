@@ -107,7 +107,17 @@ package object zio_homework {
     * Используйте эффект "load" из пакета config
     */
 
-  def loadConfigOrDefault = ???
+  import config.AppConfig
+
+  def loadConfigOrDefault(default: AppConfig): ZIO[Console, Nothing, Unit] =
+    config.load
+      .foldM(
+        fiasco => putStrLnErr(s"Load backup config (error=${fiasco.toString})")
+            .zipRight(ZIO.succeed(default))
+            .flatMap(cfg => putStrLn(cfg.toString)),
+        config => ZIO.succeed(config)
+            .flatMap(cfg => putStrLn(cfg.toString))
+      )
 
   /** 4. Следуйте инструкциям ниже для написания 2-х ZIO программ,
     * обратите внимание на сигнатуры эффектов, которые будут у вас получаться,
