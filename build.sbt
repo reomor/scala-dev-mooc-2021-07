@@ -8,11 +8,13 @@ lazy val root = (project in file("."))
     name := "scala-dev-mooc-2021-07",
     version := "0.1",
     scalaVersion := "2.13.3",
-    libraryDependencies ++= zio
+    libraryDependencies ++= zio ++ Seq(
+      "org.scalatest" %% "scalatest-flatspec" % "3.2.9" % "test"
+    )
   )
 
-libraryDependencies += "org.scalatest" %% "scalatest-flatspec" % "3.2.9" % "test"
-
-testFrameworks := Seq(new TestFramework("zio.test.sbt.ZTestFramework"))
+testFrameworks := Seq(
+  new TestFramework("zio.test.sbt.ZTestFramework")
+)
 
 scalacOptions += "-Ymacro-annotations"
