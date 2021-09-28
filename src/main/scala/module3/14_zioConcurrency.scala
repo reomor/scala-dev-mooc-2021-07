@@ -12,24 +12,8 @@ import zio.Task
 
 object zioConcurrency {
 
-  
-
   // эфект содержит в себе текущее время
   val currentTime: URIO[Clock, Long] = clock.currentTime(TimeUnit.SECONDS)
-
-
-  /**
-   * Напишите эффект, который будет считать время выполнения любого эффекта
-   */
-
-
-  def printEffectRunningTime[R, E, A](zio: ZIO[R, E, A]): ZIO[Clock with Console with R, E, A] = for{
-      start <- currentTime
-      z <- zio
-      end <- currentTime
-      _ <- putStrLn(s"Running time: ${end - start}")
-  } yield z
-
 
   val exchangeRates: Map[String, Double] = Map(
     "usd" -> 76.02,

@@ -293,15 +293,11 @@ object zioRecursion {
    *
    */
 
-
-
   lazy val readInt: ZIO[Any, Throwable, Int] = zioOperators.lineToInt
-
 
   lazy val readIntOrRetry: ZIO[Any, Throwable, Int] = readInt.orElse(
       ZIO.effect(println("Некорректный ввод, попробуйте еще раз")) *> readIntOrRetry
   )
-
 
   /**
    * Считаем факториал
@@ -313,7 +309,6 @@ object zioRecursion {
 
   /**
    * Написать ZIO версию ф-ции факториала
-   *
    */
   def factorialZ(n: Int): Task[Int] = {
     if( n <= 1) ZIO.succeed(n)
