@@ -9,6 +9,7 @@ lazy val root = (project in file("."))
     version := "0.1",
     scalaVersion := "2.13.3",
     libraryDependencies ++= zio ++ Seq(
+      "com.github.pureconfig" %% "pureconfig" % "0.16.0",
       "org.scalatest" %% "scalatest-flatspec" % "3.2.9" % "test"
     )
   )
